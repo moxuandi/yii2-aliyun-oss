@@ -35,7 +35,8 @@ components => [
         'accessKeySecret' => '阿里云OSS AccessKeySecret',
         'bucket' => '阿里云的bucket空间',
         'lanDomain' => 'OSS内网地址, 如:oss-cn-hangzhou-internal.aliyuncs.com',
-        'wanDomain' => 'OSS外网地址, 如:oss-cn-hangzhou.aliyuncs.com'
+        'wanDomain' => 'OSS外网地址, 如:oss-cn-hangzhou.aliyuncs.com',
+        'isInternal' => true // 上传文件是否使用内网，免流量费（选填，默认 false 是外网）
     ],
 ]
 ```
