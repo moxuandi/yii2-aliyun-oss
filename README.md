@@ -41,7 +41,21 @@ components => [
 ```
 
 ```php
+/** @var \yiier\AliyunOSS\OSS $oss */
 $oss = \Yii::$app->get('oss');
 $fh = '/vagrant/php/baseapi/web/storage/image/824edb4e295892aedb8c49e4706606d6.png';
 $oss->upload('824edb4e295892aedb8c49e4706606d6.png', $fh);
+
+或者
+
+$oss->upload('storage/image/824edb4e295892aedb8c49e4706606d6.png', $fh); // 会自动创建文件夹
+
+其他用法
+
+$oss->createDir('storage/image/'); //创建文件夹
+$oss->delete('824edb4e295892aedb8c49e4706606d6.png'); // 删除文件
+$oss->delete('storage/image/824edb4e295892aedb8c49e4706606d6.png'); // 删除文件，如果这个文件是此文件夹的最后一个文件，则会把文件夹一起删除
+$oss->delete('storage/image/'); // 删除文件夹，但是要确保是空文件夹
+$oss->getAllObject(); // 获取根目录下的所有文件名，默认是100个
+$oss->getAllObject(['prefix' => 'storage/image/']); // 获取 `storage/image/` 目录下的所有文件名，默认是100个
 ```
