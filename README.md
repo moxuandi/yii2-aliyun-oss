@@ -67,7 +67,21 @@ $oss->getAllObject(['prefix' => 'storage/image/']); // 获取 `storage/image/` �
 ```
 
 
-### upload action
+### Upload action
+
+
+视图文件：
+
+```php
+<?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
+    <?= $form->field($model, 'images[]')->fileInput() ?>
+    <div class="form-group">
+        <?= Html::submitButton('Submit', ['class' => 'btn btn-primary']) ?>
+    </div>
+<?php ActiveForm::end(); ?>
+```
+
+控制器：
 
 ```php
 namespace admin\controllers;
@@ -82,6 +96,7 @@ class FileController extends Controller
         return [
             'upload-images' => [
                 'class' => FileUploadAction::class,
+                'fileParam' => 'images',
                 'keepLocalFile' => true, // default false
                 'savePath' => '@webroot/uploads',
                 'webPath' => '@web/uploads',
@@ -90,3 +105,5 @@ class FileController extends Controller
     }
 }
 ```
+
+PS：请求的参数 `images` 值是个数组
