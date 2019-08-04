@@ -65,3 +65,28 @@ $oss->delete('storage/image/'); // 删除文件夹，但是要确保是空文件
 $oss->getAllObject(); // 获取根目录下的所有文件名，默认是100个
 $oss->getAllObject(['prefix' => 'storage/image/']); // 获取 `storage/image/` 目录下的所有文件名，默认是100个
 ```
+
+
+### upload action
+
+```php
+namespace admin\controllers;
+
+use yii\web\Controller;
+use yiier\AliyunOSS\FileUploadAction;
+
+class FileController extends Controller
+{
+    public function actions()
+    {
+        return [
+            'upload-images' => [
+                'class' => FileUploadAction::class,
+                'keepLocalFile' => true, // default false
+                'savePath' => '@webroot/uploads',
+                'webPath' => '@web/uploads',
+            ],
+        ];
+    }
+}
+```

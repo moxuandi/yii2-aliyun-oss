@@ -9,7 +9,6 @@ namespace yiier\AliyunOSS;
 
 use OSS\OssClient;
 use yii\base\Component;
-use Yii;
 use yii\base\InvalidConfigException;
 
 class OSS extends Component
@@ -79,6 +78,7 @@ class OSS extends Component
 
     /**
      * @return \OSS\OssClient
+     * @throws \OSS\Core\OssException
      */
     public function getClient()
     {
@@ -99,6 +99,7 @@ class OSS extends Component
     /**
      * @param $path
      * @return bool
+     * @throws \OSS\Core\OssException
      */
     public function has($path)
     {
@@ -108,6 +109,7 @@ class OSS extends Component
     /**
      * @param $path
      * @return bool
+     * @throws \OSS\Core\OssException
      */
     public function read($path)
     {
@@ -150,6 +152,7 @@ class OSS extends Component
      * 删除文件
      * @param $path
      * @return bool
+     * @throws \OSS\Core\OssException
      */
     public function delete($path)
     {
@@ -160,6 +163,7 @@ class OSS extends Component
      * 创建文件夹
      * @param $dirName
      * @return array|bool
+     * @throws \OSS\Core\OssException
      */
     public function createDir($dirName)
     {
@@ -179,6 +183,7 @@ class OSS extends Component
      *      'marker'    => 用户设定结果从marker之后按字母排序的第一个开始返回。
      * ]
      * @return array
+     * @throws \OSS\Core\OssException
      */
     public function getAllObject($options = [])
     {
