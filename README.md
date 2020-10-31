@@ -15,13 +15,13 @@ The preferred way to install this extension is through [composer](http://getcomp
 Either run
 
 ```
-php composer.phar require --prefer-dist yiier/yii2-aliyun-oss "*"
+composer require yiier/yii2-aliyun-oss "^1.0"
 ```
 
 or add
 
 ```
-"yiier/yii2-aliyun-oss": "*"
+"yiier/yii2-aliyun-oss": "^1.0"
 ```
 
 to the require section of your `composer.json` file.
@@ -33,37 +33,47 @@ Usage
 配置文件添加组件  :
 
 ```php
-components => [
+'components' => [
     'oss' => [
         'class' => 'yiier\AliyunOSS\OSS',
-        'accessKeyId' => 'xxxxx', // 阿里云OSS AccessKeyID
-        'accessKeySecret' => 'xxxx', // 阿里云OSS AccessKeySecret
-        'bucket' => 'xxx', // 阿里云的bucket空间
-        'lanDomain' => 'oss-cn-hangzhou-internal.aliyuncs.com', // OSS内网地址
-        'wanDomain' => 'oss-cn-hangzhou.aliyuncs.com', //OSS外网地址
-        'isInternal' => true // 上传文件是否使用内网，免流量费（选填，默认 false 是外网）
+        'accessKeyId' => 'xxxxx',  // 阿里云OSS AccessKeyID
+        'accessKeySecret' => 'xxxx',  // 阿里云OSS AccessKeySecret
+        'endpoint' => 'oss-cn-hangzhou.aliyuncs.com', // 阿里云OSS 数据中心的域名
+        'bucket' => 'xxx',  // 阿里云的bucket空间
+        'timeout' => 3600,  // 临时URL的超时时间, 单位:秒.
+        'isPrivate' => false,  // 是否私有空间, 默认公开空间
     ],
 ]
 ```
 
 ```php
-/** @var \yiier\AliyunOSS\OSS $oss */
-$oss = \Yii::$app->get('oss');
-$fh = '/vagrant/php/baseapi/web/storage/image/824edb4e295892aedb8c49e4706606d6.png';
-$oss->upload('824edb4e295892aedb8c49e4706606d6.png', $fh);
+/** @var yiier\AliyunOSS\OSS $oss */
+$oss = Yii::$app->get('oss');
 
-或者
+// 本地文件
+$ossFile = 'storage/image/test.png';
+$localFile = 'upload/storage/image/test.png';
 
-$oss->upload('storage/image/824edb4e295892aedb8c49e4706606d6.png', $fh); // 会自动创建文件夹
+// 上传文件, 会自动创建文件夹
+$oss->upload($ossFile, $localFile);
 
-其他用法
+// 获取资源的临时URL
+$oss->signUrl($ossFile);
 
-$oss->createDir('storage/image/'); //创建文件夹
-$oss->delete('824edb4e295892aedb8c49e4706606d6.png'); // 删除文件
-$oss->delete('storage/image/824edb4e295892aedb8c49e4706606d6.png'); // 删除文件，如果这个文件是此文件夹的最后一个文件，则会把文件夹一起删除
-$oss->delete('storage/image/'); // 删除文件夹，但是要确保是空文件夹
-$oss->getAllObject(); // 获取根目录下的所有文件名，默认是100个
-$oss->getAllObject(['prefix' => 'storage/image/']); // 获取 `storage/image/` 目录下的所有文件名，默认是100个
+// 创建文件夹
+$oss->createDir('storage/image/');
+
+// 删除文件，如果这个文件是此文件夹的最后一个文件，则会把文件夹一起删除
+$oss->delete($ossFile);
+
+// 删除文件夹，但是要确保是空文件夹
+$oss->delete('storage/image/');
+
+// 获取根目录下的所有文件名，默认是100个
+$oss->getAllObject();
+
+// 获取 `storage/image/` 目录下的所有文件名，默认是100个
+$oss->getAllObject(['prefix' => 'storage/image/']);
 ```
 
 
